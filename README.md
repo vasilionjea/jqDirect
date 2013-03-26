@@ -1,7 +1,7 @@
 GDirections
 ===========
 
-Gets Google Map directions from one address to another. Having a map on the page is totally optional. Take a look at `index.html` for examples.
+A jQuery plugin that gets Google Map directions from one address to another. Having a map on the page is totally optional. Take a look at `index.html` for examples.
 
 ### Usage
 This example does the following:
@@ -9,15 +9,17 @@ This example does the following:
 - Adds a marker at the specified address
 
 HTML:
+
 	<div id="map-canvas"></div>
 
 JS:
+
 	$('#map-canvas').GDirections({
 		to: 'Raleigh, NC'
 	});
 
 
-Example with directions via a `<form>`:
+Example with directions * _this example could be triggered on some event... like a form `submit()`_:
 
 	// Use $({}) if we don't have/want a map
 	$('#map-canvas').GDirections('calcRoute', {
