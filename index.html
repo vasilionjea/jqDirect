@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+
+<title>jQuery GDirections</title>
+<link href="style.css" rel="stylesheet">
+<style>
+   /* 
+    * Google map overrides
+    */
+   .adp-directions { 
+      width: 100%; 
+   }
+   .adp-substep { 
+      border-top: 1px solid #f3f3f3; 
+   }
+   .adp-placemark {
+      background: none repeat scroll 0 0 #F9F9F9;
+      border: 1px solid #EEEEEE;
+   }   
+
+   #print { display: none; }
+
+   #action-buttons {
+      overflow: hidden;
+      padding: 1em 0 0 0;
+   }
+</style>
+</head>
+<body>
+   <header>
+      <div id="map-canvas"></div>
+   </header>
+
+   <div class="container">
+      <div id="action-buttons">
+         <a id="get-dirs" class="btn btn-sea pull-left" data-location="Durham, NC">Get Directions</a>
+         <a id="print" class="btn btn-dark pull-right">Print</a>         
+      </div>
+
+      <div id="directions-output"></div>
+   </div>
+</body>
+
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
+<script src="gdirections.js"></script>
+<script>
+   // EXAMPLE 1
+   ///////////////////////////////////////////////////////////////////// 
+   var $map = $('#map-canvas');
+   var $output = $('#directions-output');
+   var $print = $('#print');
+
+   // Initially create the map and setup a marker at the 'to' address
+   $map.GDirections({
+      to: 'Raleigh, NC'
+   });
+
+   // Get the directions only when this form is submitted
+   $('#get-dirs').on('click', function (e) {
+      e.preventDefault();
+      var $link = $(this);
+
+      // Use $({}) if we don't have a map
+      $map.GDirections('calcRoute', { // this method's arguments
+         'from': $link.data('location'), 
+
+         // alternatively you can specify a different address - By default it uses the one you set above
+         //'to': '123 Some other st., Mars, Universe',
+
+         // Where should the directions output?
+         'output': $output
+      });
+
+      $print.show();
+
+      $print.off('click');
+      $print.on('click', function (e) {
+         e.preventDefault();
+
+         if ($output.children().length) {
+            $map.GDirections('print');
+         }
+      });      
+   });
+
+   // If you really need to use the private methods!!! (* not recommended)
+   // $map.data('gdirections')._geocode_address('Durham, NC', function (location) {
+   //      console.log(location);
+   // })
+
+
+   // window.setTimeout(function () { // Add another marker to the map
+   //     $map.GDirections('addMarker', '123 Fishers Creek Ct., Cary, NC');
+   // }, 4000);
+
+</script>
+</html>
