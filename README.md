@@ -1,7 +1,7 @@
 GDirections
 ===========
 
-A jQuery plugin that gets Google Map directions from one address to another. Having a map on the page is totally optional. Take a look at `index.html` for examples.
+A jQuery plugin that gets Google Map directions from one address to another. Having a map on the page is totally optional. Take a look at `index.html` for examples or check out the [demo](http://istocode.com/shared/gdirections/).
 
 ### Usage
 This example does the following:
