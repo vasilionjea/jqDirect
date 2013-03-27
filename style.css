@@ -4,12 +4,25 @@ body {
 	overflow-y: scroll;
 	background: rgba(229, 245, 255, 0.22);
 }
+
+/* Google map overrides */
+.adp-directions { 
+  width: 100%; 
+}
+.adp-substep { 
+  border-top: 1px solid #f3f3f3; 
+}
+.adp-placemark {
+  background: none repeat scroll 0 0 #F9F9F9;
+  border: 1px solid #EEEEEE;
+}
+
 .container {
-	margin: 0 auto 0 auto;
-	width: 940px;
-	padding: 8px;
+	margin: 0 auto 2% auto;
+	width: 92%;
+	padding: 0 4%;
 	overflow: hidden;
-   position: relative;
+    position: relative;
 }
 header {
 	position: relative;
@@ -24,31 +37,25 @@ header {
 	height: 100%;
 }
 .page-title {
-	position: relative;
+	position: absolute;
+	top: 182px;
+	right: 0px;
 	z-index: 10;
 	overflow: hidden;
-
-	margin-top: 0;
-	border-top: 5px solid #2E2E2E;
-	border-bottom: 2px solid #2E2E2E;
-
-	padding: 0.8em 1em 1em;
-	
-	text-align: center;
-	letter-spacing: 0.06em;
-	text-shadow: 0 2px 1px #8F8F8F;
-
+	height: 60px;
+	letter-spacing: 0.07em;
+	text-shadow: 0 2px 1px rgba(73, 73, 73, 0.7);
 	font-family: Tahoma, Verdana;
-	font-size: 5em;
-	color: #FFF;
-
-	opacity: 0.62;
+	font-size: 3em;
+	color: #FFFDFA;
+	opacity: 0.8;
+	padding: 0 1em;
 }
 .btn {
    display: block;
-   width: 220px;
+   width: 200px;
    margin: 0 auto 3em auto;
-   padding: 1em;
+   padding: 0.8em;
    text-transform: uppercase;
    letter-spacing: 2px;
    color: #ddd;
@@ -63,6 +70,7 @@ header {
 }
 .btn-dark:hover {
    background: #363636;
+   color: #F57D44;
 }
 .btn-dark:active {
    background: #242424;
@@ -75,6 +83,25 @@ header {
 }
 .btn-sea:hover { background: #0978AC; }
 .btn-sea:active { background: #0964AC; }
+
+#action-buttons {
+  overflow: hidden;
+  padding: 1em 0 0 0;
+}
+#print { display: none; }
+
 .center-text { text-align: center; }
+
 .pull-left { float: left; }
 .pull-right { float: right; } 
+
+/* Landscape phones and down */
+@media (max-width: 480px) {
+	.btn {
+		width: 42%;
+		font-size: 0.9em;
+	}
+	#print {
+		margin-left: .5%;
+	}
+}

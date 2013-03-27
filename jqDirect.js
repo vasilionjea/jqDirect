@@ -1,32 +1,35 @@
-/* Name: GDirections
+/* Name: jqDirect
  * Description: Gets Google Map directions from one address to another. Having a map on the page is totally optional.
- * Author: Billy Onjea (github.com/vasilionjea/GDirections)
+ * Author: Billy Onjea (github.com/vasilionjea/jqDirect)
  * License: Same as jQuery
  */
 ;(function ($) {
-    // Default Settings
+    // Default settings
     var defaults = {
         from: '',
         to: '',
         output: ''
     };
 
-    // Google map references
-    var LatLngBounds = new google.maps.LatLngBounds(),
+    var // Google map references
+    LatLngBounds = new google.maps.LatLngBounds(),
     Geocoder = new google.maps.Geocoder(),
     DirectionsService = new google.maps.DirectionsService(),
     DirectionsRenderer = new google.maps.DirectionsRenderer();
 
-    function GDirections (el, options) {
+    function jqDirect (el, options) {
         this.$el = $(el);
 
         this.settings = $.extend({}, defaults, options);
+
         this.directions_list = document.createElement('div');
+        this.$directions_output = null;
+
         this.map = null;
         this.markers = [];
     }
 
-    $.extend(GDirections.prototype, {
+    $.extend(jqDirect.prototype, {
         _init: function () {
             var self = this;
 
@@ -37,28 +40,28 @@
                 // Add marker at initial address if we have one
                 this._geocode_address(self.settings.to, function (geocoded_location) {
                     self.addMarker(geocoded_location);
-                });                
+                });
             }
 
             return self;
         },
 
         _createMap: function () {
-            var map_canvas = document.getElementById(this.$el.prop('id'));
-
-            var map = new google.maps.Map(map_canvas, {
-                zoom: 6,
-                mapTypeId: google.maps.MapTypeId['ROADMAP'],
-                scrollwheel: false
+            var 
+            map_canvas = document.getElementById(this.$el.prop('id')),
+            map = new google.maps.Map(map_canvas, {
+                zoom: 13,
+                mapTypeId: google.maps.MapTypeId['ROADMAP']
             });
 
             google.maps.event.addListenerOnce(map, 'zoom_changed', function () {
-                map.setZoom(13);
+                map.setZoom(15);
             });
 
             return map;
         },
 
+        // Geocode a string address
         _geocode_address: function (str_address, callback) {
             if (!str_address || !callback) { return; }
 
@@ -68,18 +71,36 @@
             }, function (results, status) { // Geocoder callback
                 if (status === google.maps.GeocoderStatus.OK) {
                     callback(results[0].geometry.location);
-                }              
+                }
             });
         },
+
+        // Get the string address from geocoded location
+        _get_geocoded_address: function (geocoded_location, callback) {
+            if (!geocoded_location || !callback) { return; }
+
+            // Geocode the initial location address & and add its marker
+            Geocoder.geocode({
+                'latLng': geocoded_location
+            }, function (results, status) { // Geocoder callback
+                if (status === google.maps.GeocoderStatus.OK) {
+                    callback(results[0].formatted_address);
+                }              
+            });
+        },        
 
         // Adds a new marker to the map
         addMarker: function (geocoded_location) {
             var self = this, marker, str_location;
 
-            // Geocode if needed and try again
-            if (!geocoded_location || $.type(geocoded_location) !== 'object') {
+            // undefined, empty string, null...
+            if (!geocoded_location) { return; }
+
+            // Geocode if needed
+            if (typeof geocoded_location == 'string') {
                 str_location = geocoded_location;
 
+                // Geocode string address and try again...
                 self._geocode_address(str_location, function (geocoded_location) {
                     self.addMarker(geocoded_location);
                 });
@@ -87,6 +108,7 @@
                 return;
             }
 
+            // Get the string address from geocoded location
             marker = new google.maps.Marker({
                 map: self.map,
                 position: geocoded_location
@@ -96,19 +118,16 @@
             LatLngBounds.extend(geocoded_location);
             self.map.fitBounds(LatLngBounds);
 
-            // Very important that we keep track
+            // Let's keep track
             self.markers.push(marker);
         },        
 
         // Calculates route
         calcRoute: function (destination) {
             var self = this, request;
-            var $directions_output = destination.output;
+            var $directions_output = self.$directions_output = destination.output;
 
             $directions_output.hide();
-
-            // Render on map if we have one
-            DirectionsRenderer.setMap(self.map);
 
             request = {
                 origin: destination.from,
@@ -116,10 +135,14 @@
                 travelMode: google.maps.DirectionsTravelMode.DRIVING
             };
 
-            DirectionsService.route(request, function(response, status) {
-                if (status == google.maps.DirectionsStatus.OK) {
-                    DirectionsRenderer.setDirections(response);
+            DirectionsService.route(request, function(result, status) {
+                if (status == 'OK') {
+                    // Render on map if we have one
+                    DirectionsRenderer.setMap(self.map);
+                    DirectionsRenderer.setDirections(result);
                     DirectionsRenderer.setPanel( self.directions_list );
+
+                    result.routes[0].copyrights += ' - jqDirect';
 
                     $directions_output
                     .html( self.directions_list )
@@ -135,12 +158,12 @@
             $oldFrame = $body.find('#print-frame');
 
             // Remove old one first
-            if ($oldFrame.length) { $oldFrame.remove(); }            
+            if ($oldFrame.length) { $oldFrame.remove(); }
 
             var // New iframe
-            iframe = document.createElement('iframe'), 
+            iframe = document.createElement('iframe'),
             ihtml,
-            i_window, 
+            i_window,
             i_document;
 
             // iFrame attrs
@@ -149,36 +172,57 @@
             iframe.width = '0';
             iframe.height = '0';
             iframe.scrolling = 'no';
-            iframe.border = 0;            
+            iframe.border = 0;
 
-            // iFrame html
-            ihtml = '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Print Directions</title></head>';
-            ihtml += '<body>' + $(self.directions_list).html() + '</body></html>';
+            // iframe html
+            ihtml = '<!DOCTYPE html> <html lang="en">';
+            ihtml += '<head> <meta charset="utf-8">';
+            ihtml += '<title>Print Directions</title>';
+            ihtml += '<style>';
+                ihtml += '/* Google direction overrides */';
+                ihtml += '.adp-directions { width:100%; }';
+                ihtml += '.adp-substep { border-top:1px solid #f3f3f3; }';
+                ihtml += '.adp-placemark { background:none repeat scroll 0 0 transparent; border:none; }';
+            ihtml += '</style>';
+            ihtml += '</head>';
+            ihtml += '<body>';
+            ihtml += self.$directions_output.html();
+            ihtml += self.$el.wrap('<div />').parent().html(); // hack to get outerHTML
+            ihtml += '</body></html>';
+
+            self.$el.unwrap('<div />'); // remove hack
 
             // Add it to page
             document.body.appendChild(iframe);
 
-            i_window = iframe.contentWindow; // get the window object
-            i_document = iframe.contentDocument || i_window.document; // get the document object
+            // Get iframe's window & document objects
+            i_window = iframe.contentWindow;
+            i_document = iframe.contentDocument || i_window.document;
 
             i_document.open();
             i_document.write(ihtml);
             i_document.close();
 
+            // Give the printed map a general height
+            $(i_document).find('#'+self.$el.prop('id')).css({ width:'100%', height:'380px' });
+
+            // ...and print!
             i_window.focus();
-            i_window.print();
+            window.setTimeout(function () {
+                i_window.print();
+            }, 13);
         }
     });
 
     // Plugin namespace
-    $.fn.GDirections = function(options, args) {
+    $.fn.jqDirect = function(options, args) {
         return this.each(function () {
             var 
             $this = $(this),
             instance = $this.data('gdirections');
 
             if (!instance) {
-                instance = new GDirections(this, options);
+                instance = new jqDirect(this, options);
                 $this.data('gdirections', instance._init());
             }
 
