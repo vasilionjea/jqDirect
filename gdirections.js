@@ -129,33 +129,44 @@
         },
 
         print: function () {
-            var self = this;
-            var iframe, iframeWindow, iframeDocument;
-            var $body = $(document.body);
+            var 
+            self = this,
+            $body = $(document.body),
+            $oldFrame = $body.find('#print-frame');
 
-            if ($body.find('#print-frame').length) {
-                $body.find('#print-frame').remove();
-            }
+            // Remove old one first
+            if ($oldFrame.length) { $oldFrame.remove(); }            
 
-            iframe = document.createElement('iframe');
+            var // New iframe
+            iframe = document.createElement('iframe'), 
+            ihtml,
+            i_window, 
+            i_document;
+
+            // iFrame attrs
+            iframe.src = '';
             iframe.id = 'print-frame';
             iframe.width = '0';
             iframe.height = '0';
-            iframe.src = 'about:blank';
+            iframe.scrolling = 'no';
+            iframe.border = 0;            
+
+            // iFrame html
+            ihtml = '<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><title>Print Directions</title></head>';
+            ihtml += '<body>' + $(self.directions_list).html() + '</body></html>';
 
             // Add it to page
-            $body.append(iframe);
+            document.body.appendChild(iframe);
 
-            iframeWindow = iframe.contentWindow? iframe.contentWindow : iframe.contentDocument.defaultView;
-            iframeDocument = iframeWindow.document;
+            i_window = iframe.contentWindow; // get the window object
+            i_document = iframe.contentDocument || i_window.document; // get the document object
 
-            iframeDocument.open();
-            iframeDocument.write( $(self.directions_list).html() );
-            iframeDocument.close();
+            i_document.open();
+            i_document.write(ihtml);
+            i_document.close();
 
-            iframeWindow.print();
-            $body.find('#print-frame').remove();
-            iframe = null;
+            i_window.focus();
+            i_window.print();
         }
     });
 
