@@ -220,11 +220,11 @@
         return this.each(function () {
             var 
             $this = $(this),
-            instance = $this.data('gdirections');
+            instance = $this.data('jqdirect');
 
             if (!instance) {
                 instance = new jqDirect(this, options);
-                $this.data('gdirections', instance._init());
+                $this.data('jqdirect', instance._init());
             }
 
             if (typeof options == 'string' && !/_init|_createMap|_geocode_address/.test(options)) {

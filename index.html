@@ -26,23 +26,26 @@
 <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
 <script src="jqDirect.min.js"></script>
 <script>
-   // EXAMPLE
-   ///////////////////////////////////////////////////////////////////// 
-   var $map = $('#map-canvas');
-   var $output = $('#directions-output');
-   var $print = $('#print');
 
-   // Initially create the map and setup a marker at the 'to' address
+   var // jQ references
+   $map = $('#map-canvas'),
+   $output = $('#directions-output'),
+   $print = $('#print');
+
+   // Create a map - initially create the map and setup a marker at the 'to' address
+   ///////////////////////////////////////////////////////////////////// 
    $map.jqDirect({
       to: 'Virginia Beach, VA'
    });
+   
 
-   // Get the directions once this button is clicked
+   // Get the directions once the '#get-dirs' link is clicked
    $('#get-dirs').on('click', function (e) {
       e.preventDefault();
       var $link = $(this);
 
-      // Use $({}) if we don't have a map
+      // Directions - use  $({})  if we don't have a map
+      ///////////////////////////////////////////////////////////////////// 
       $map.jqDirect('calcRoute', { // this method's arguments
          'from': $link.data('location'), 
 
@@ -54,15 +57,29 @@
       });
 
       // Printing...
+      ///////////////////////////////////////////////////////////////////// 
       $print.fadeIn(200);
-      $print.off('click.jqdirect'); // !important because some Browsers trigger multiple print() calls
+
+      // It is important to first remove the event because some Browsers trigger print() more than once
+      $print.off('click.jqdirect');
       $print.on('click.jqdirect', function (e) {
          e.preventDefault();
 
+         // If output has the directions
          if ($output.children().length) {
             $map.jqDirect('print');
          }
       });      
    });
+
+
+   // Adding markers to the map
+   ///////////////////////////////////////////////////////////////////// 
+   // Both are equivalent
+   setTimeout(function () {
+      // $map.jqDirect("addMarker", 'Boston, MA');
+      // $map.data('jqdirect').addMarker('Raleigh, NC');
+   }, 2000);
+
 </script>
 </html>
