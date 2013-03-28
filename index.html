@@ -37,7 +37,7 @@
       to: 'Virginia Beach, VA'
    });
 
-   // Get the directions only when this form is submitted
+   // Get the directions once this button is clicked
    $('#get-dirs').on('click', function (e) {
       e.preventDefault();
       var $link = $(this);
@@ -53,10 +53,10 @@
          'output': $output
       });
 
+      // Printing...
       $print.fadeIn(200);
-
-      $print.off('click');
-      $print.on('click', function (e) {
+      $print.off('click.jqdirect'); // !important because some Browsers trigger multiple print() calls
+      $print.on('click.jqdirect', function (e) {
          e.preventDefault();
 
          if ($output.children().length) {

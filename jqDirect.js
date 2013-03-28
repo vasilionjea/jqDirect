@@ -1,6 +1,6 @@
 /* Name: jqDirect
  * Description: Gets Google Map directions from one address to another. Having a map on the page is totally optional.
- * Author: Billy Onjea (github.com/vasilionjea/jqDirect)
+ * Author: Billy Onjea [istocode.com](github.com/vasilionjea/jqDirect)
  * License: Same as jQuery
  */
 ;(function ($) {
@@ -29,6 +29,7 @@
         this.markers = [];
     }
 
+    // Methods
     $.extend(jqDirect.prototype, {
         _init: function () {
             var self = this;
@@ -108,7 +109,7 @@
                 return;
             }
 
-            // Get the string address from geocoded location
+            // Add the marker on our map
             marker = new google.maps.Marker({
                 map: self.map,
                 position: geocoded_location
@@ -122,7 +123,7 @@
             self.markers.push(marker);
         },        
 
-        // Calculates route
+        // Calculate route
         calcRoute: function (destination) {
             var self = this, request;
             var $directions_output = self.$directions_output = destination.output;
@@ -204,7 +205,7 @@
             i_document.close();
 
             // Give the printed map a general height
-            $(i_document).find('#'+self.$el.prop('id')).css({ width:'100%', height:'380px' });
+            $(i_document).find('#'+self.$el.prop('id')).css({ width:'100%', height:'340px' });
 
             // ...and print!
             i_window.focus();
