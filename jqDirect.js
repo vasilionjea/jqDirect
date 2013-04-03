@@ -227,7 +227,7 @@
                 $this.data('jqdirect', instance._init());
             }
 
-            if (typeof options == 'string' && !/_init|_createMap|_geocode_address/.test(options)) {
+            if (typeof options == 'string' && !/_init|_createMap|_geocode_address|_get_geocoded_address/.test(options)) {
                 instance[options](args);
             }
         });
