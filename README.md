@@ -5,13 +5,13 @@ jqDirect is a minimalistic plugin for jQuery that gets Google Map directions fro
 ---------------
 
 ## Usage
-### Load jQuery, Google Maps V3, and jqDirect:
+Load **jQuery (1.9.1+)**, **Google Maps v3**, and **jqDirect**:
 
 	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 	<script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
 	<script src="jqDirect.min.js"></script>	
  
-### Create a map with an initial marker:
+Create a map with an initial marker:
 	
 	// HTML
 	<div id="map-canvas"></div>
@@ -23,7 +23,7 @@ jqDirect is a minimalistic plugin for jQuery that gets Google Map directions fro
 	});
 
 
-### Get directions from one address to another:
+Get directions from one address to another:
 _This example could be triggered on some event... like a form `submit()`_:
 	
 	// somewhere on the page you have this: <div id="directions-output"></div>
@@ -40,12 +40,12 @@ _This example could be triggered on some event... like a form `submit()`_:
 		'output': $output
 	});
 	
-### Print the outputted directions:
+Print the outputted directions:
 
-      // Printing...
-      var $print = $('#print'); // a link to trigger printing
+       // A link to trigger printing
+      var $print = $('#print');
 
-      // It is important to first remove the event because some Browsers trigger print() more than once
+      // It's important to first remove the event because some Browsers trigger `print()` more than once
       $print.off('click.jqdirect');
       $print.on('click.jqdirect', function (e) {
          e.preventDefault();
@@ -56,7 +56,7 @@ _This example could be triggered on some event... like a form `submit()`_:
          }
       });
       
-### Add markers to the map
+Add additional markers to the map:
 	
 	// Both are equivalent
 	$map.jqDirect("addMarker", 'Boston, MA');
