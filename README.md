@@ -1,8 +1,8 @@
 ## jqDirect()
 
-jqDirect is a minimalistic plugin for jQuery that gets Google Map directions from one address to another. Having a map on the page is totally optional & directions are printable with a built in method. Take a look at `index.html` for examples or check out the [demo](http://istocode.com/shared/jqDirect/).
-
----------------
+jqDirect is a minimalistic plugin for jQuery that gets Google Map directions from one address to another. Having a map 
+on the page is totally optional & directions are printable with a built in method. Take a look at `index.html` for 
+examples or check out the [demo](http://istocode.com/shared/jqDirect/).
 
 ## Usage
 Load **jQuery (1.9.1+)**, **Google Maps v3**, and **jqDirect**:
@@ -11,7 +11,7 @@ Load **jQuery (1.9.1+)**, **Google Maps v3**, and **jqDirect**:
 	<script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
 	<script src="jqDirect.min.js"></script>	
  
-Create a map with an initial marker:
+**Create a map** with an initial marker:
 	
 	// HTML
 	<div id="map-canvas"></div>
@@ -23,7 +23,7 @@ Create a map with an initial marker:
 	});
 
 
-Get directions from one address to another:
+**Get directions** from one address to another:
 _This example could be triggered on some event... like a form `submit()`_:
 	
 	// somewhere on the page you have this: <div id="directions-output"></div>
@@ -40,7 +40,7 @@ _This example could be triggered on some event... like a form `submit()`_:
 		'output': $output
 	});
 	
-Print the outputted directions:
+**Print** the outputted directions:
 
        // A link to trigger printing
       var $print = $('#print');
@@ -56,8 +56,14 @@ Print the outputted directions:
          }
       });
       
-Add additional markers to the map:
+**Add additional markers** to the map if needed:
 	
 	// Both are equivalent
 	$map.jqDirect("addMarker", 'Boston, MA');
 	$map.data('jqdirect').addMarker('Raleigh, NC');
+	
+	
+## Known Issues
+
+1. When printing the outputted directions the map image may fall in between to pages, therefore being cut off.
+
