@@ -1,6 +1,14 @@
-/* Name: jqDirect
+/**
+ * ________       _____________                  _____ 
+ * ______(_)_____ ___  __ \__(_)___________________  /_
+ * _____  /_  __ `/_  / / /_  /__  ___/  _ \  ___/  __/
+ * ____  / / /_/ /_  /_/ /_  / _  /   /  __/ /__ / /_  
+ * ___  /  \__, / /_____/ /_/  /_/    \___/\___/ \__/  
+ * /___/     /_/                                       
+ *
+ * jqDirect
  * Description: Gets Google Map directions from one address to another. Having a map on the page is totally optional.
- * Author: Billy Onjea [istocode.com](github.com/vasilionjea/jqDirect)
+ * Author: Billy Onjea 
  * License: Same as jQuery
  */
 ;(function ($) {
