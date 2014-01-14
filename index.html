@@ -11,81 +11,79 @@
 <link href="style.css" rel="stylesheet">
 </head>
 <body>
-<a href="https://github.com/vasilionjea/jqDirect"><img style="position:absolute; top:0; right:0; border:0; z-index:999;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+  <a href="https://github.com/vasilionjea/jqDirect"><img style="position:absolute; top:0; right:0; border:0; z-index:999;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
 
-   <header>
-      <div id="map-canvas"></div>
-      <h1 class="page-title">jqDirect</h1>
-   </header>
+  <header>
+    <div id="map-canvas"></div>
+    <h1 class="page-title">jqDirect</h1>
+  </header>
 
-   <div class="container">
-      <div id="action-buttons">
-         <a id="get-dirs" class="btn btn-sea pull-left" data-location="Raleigh, NC">Get Directions</a>
-         <a id="print" class="btn btn-dark pull-right">Print</a>         
-      </div>
+  <div class="container">
+    <div id="action-buttons">
+      <a id="get-dirs" class="btn btn-sea pull-left" data-location="Raleigh, NC">Get Directions</a>
+      <a id="print" class="btn btn-dark pull-right">Print</a>         
+    </div>
 
-      <div id="directions-output"></div>
-   </div>
+    <div id="directions-output"></div>
+  </div>
 </body>
 
 <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
 <script src="jqDirect.min.js"></script>
 <script>
+  var // jQ references
+  $map = $('#map-canvas'),
+  $output = $('#directions-output'),
+  $print = $('#print');
 
-   var // jQ references
-   $map = $('#map-canvas'),
-   $output = $('#directions-output'),
-   $print = $('#print');
-
-   // Create a map - initially create the map and setup a marker at the 'to' address
-   ///////////////////////////////////////////////////////////////////// 
-   $map.jqDirect({
-      to: 'Virginia Beach, VA'
-   });
+  // Create a map - initially create the map and setup a marker at the 'to' address
+  ///////////////////////////////////////////////////////////////////// 
+  $map.jqDirect({
+    to: 'Virginia Beach, VA'
+  });
    
 
-   // Get the directions once the '#get-dirs' link is clicked
-   $('#get-dirs').on('click', function (e) {
+  // Get the directions once the '#get-dirs' link is clicked
+  $('#get-dirs').on('click', function (e) {
+    e.preventDefault();
+    var $link = $(this);
+
+    // Directions - use  $({})  if we don't have a map
+    ///////////////////////////////////////////////////////////////////// 
+    $map.jqDirect('calcRoute', { // this method's arguments
+      'from': $link.data('location'), 
+
+      // alternatively you can specify a different address - By default it uses the one you set above
+      //'to': 'New York, NY',
+
+      // Where should the directions output?
+      'output': $output
+    });
+
+    // Printing...
+    ///////////////////////////////////////////////////////////////////// 
+    $print.fadeIn(200);
+
+    // It is important to first remove the event because some Browsers trigger print() more than once
+    $print.off('click.jqdirect');
+    $print.on('click.jqdirect', function (e) {
       e.preventDefault();
-      var $link = $(this);
 
-      // Directions - use  $({})  if we don't have a map
-      ///////////////////////////////////////////////////////////////////// 
-      $map.jqDirect('calcRoute', { // this method's arguments
-         'from': $link.data('location'), 
-
-         // alternatively you can specify a different address - By default it uses the one you set above
-         //'to': 'New York, NY',
-
-         // Where should the directions output?
-         'output': $output
-      });
-
-      // Printing...
-      ///////////////////////////////////////////////////////////////////// 
-      $print.fadeIn(200);
-
-      // It is important to first remove the event because some Browsers trigger print() more than once
-      $print.off('click.jqdirect');
-      $print.on('click.jqdirect', function (e) {
-         e.preventDefault();
-
-         // If output has the directions
-         if ($output.children().length) {
-            $map.jqDirect('print');
-         }
-      });      
-   });
+      // If output has the directions
+      if ($output.children().length) {
+        $map.jqDirect('print');
+      }
+    });      
+  });
 
 
-   // Adding markers to the map
-   ///////////////////////////////////////////////////////////////////// 
-   // Both are equivalent
-   setTimeout(function () {
-      // $map.jqDirect("addMarker", 'Boston, MA');
-      // $map.data('jqdirect').addMarker('Raleigh, NC');
-   }, 2000);
-
+  // Adding markers to the map
+  ///////////////////////////////////////////////////////////////////// 
+  // Both are equivalent
+  setTimeout(function () {
+    // $map.jqDirect("addMarker", 'Boston, MA');
+    // $map.data('jqdirect').addMarker('Raleigh, NC');
+  }, 2000);
 </script>
 </html>
