@@ -26,15 +26,15 @@
   DirectionsRenderer = new google.maps.DirectionsRenderer();
 
   function jqDirect (el, options) {
-      this.$el = $(el);
+    this.$el = $(el);
 
-      this.settings = $.extend({}, defaults, options);
+    this.settings = $.extend({}, defaults, options);
 
-      this.directions_list = document.createElement('div');
-      this.$directions_output = null;
+    this.directions_list = document.createElement('div');
+    this.$directions_output = null;
 
-      this.map = null;
-      this.markers = [];
+    this.map = null;
+    this.markers = [];
   }
 
   // Methods
@@ -188,10 +188,10 @@
       ihtml += '<head> <meta charset="utf-8">';
       ihtml += '<title>Print Directions</title>';
       ihtml += '<style>';
-          ihtml += '/* Google direction overrides */';
-          ihtml += '.adp-directions { width:100%; }';
-          ihtml += '.adp-substep { border-top:1px solid #f3f3f3; }';
-          ihtml += '.adp-placemark { background:none repeat scroll 0 0 transparent; border:none; }';
+        ihtml += '/* Google direction overrides */';
+        ihtml += '.adp-directions { width:100%; }';
+        ihtml += '.adp-substep { border-top:1px solid #f3f3f3; }';
+        ihtml += '.adp-placemark { background:none repeat scroll 0 0 transparent; border:none; }';
       ihtml += '</style>';
       ihtml += '</head>';
       ihtml += '<body>';
@@ -235,7 +235,7 @@
         $this.data('jqdirect', instance._init());
       }
 
-      if (typeof options == 'string' && !/_init|_createMap|_geocode_address|_get_geocoded_address/.test(options)) {
+      if (typeof options == 'string' && !/^_/.test(options)) {
         instance[options](args);
       }
     });
