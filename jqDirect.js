@@ -192,6 +192,7 @@
         ihtml += '.adp-directions { width:100%; }';
         ihtml += '.adp-substep { border-top:1px solid #f3f3f3; }';
         ihtml += '.adp-placemark { background:none repeat scroll 0 0 transparent; border:none; }';
+        ihtml += '#map-canvas { page-break-inside: avoid !important; }';
       ihtml += '</style>';
       ihtml += '</head>';
       ihtml += '<body>';
