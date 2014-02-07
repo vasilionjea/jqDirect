@@ -1,6 +1,6 @@
 ## jqDirect()
 
-jqDirect is a minimalistic plugin for jQuery that gets Google Map directions from one address to another. Having a map 
+**jqDirect** is a minimalistic plugin for jQuery that gets Google Map directions from one address to another. Having a map 
 on the page is totally optional & directions are printable with a built in method. Take a look at `index.html` for 
 examples or check out the [demo](http://istocode.com/shared/jqDirect/).
 
