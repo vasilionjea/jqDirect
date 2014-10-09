@@ -65,6 +65,6 @@ _This example could be triggered on some event... like a form `submit()`_:
 	
 ## Known Issues
 
-1. <del>When printing directions, the map may fall in between 2 printing pages, therefore showing cut off.</del>
+1. <del>When printing directions, the map may fall in between 2 pages, therefore showing cut off.</del>
 2. On the printed directions the map is positioned incorrectly.
 
