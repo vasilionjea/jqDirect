@@ -48,27 +48,27 @@ $map.jqDirect('calcRoute', {
 **Print** the outputted directions:
 
 ```javascript
-  // A link to trigger printing
-  var $print = $('#print');
+// A link to trigger printing
+var $print = $('#print');
 
-  // It's important to first remove the event because some Browsers trigger `print()` more than once
-  $print.off('click.jqdirect');
-  $print.on('click.jqdirect', function (e) {
-    e.preventDefault();
+// It's important to first remove the event because some Browsers trigger `print()` more than once
+$print.off('click.jqdirect');
+$print.on('click.jqdirect', function (e) {
+  e.preventDefault();
 
-    // If output has the directions
-    if ($output.children().length) {
-      $map.jqDirect('print'); // call jqDirect's built in method
-    }
+  // If output has the directions
+  if ($output.children().length) {
+    $map.jqDirect('print'); // call jqDirect's built in method
+  }
 });
 ```
       
 **Add additional markers** to the map if needed:
 
 ```javascript	
-  // Both are equivalent
-  $map.jqDirect("addMarker", 'Boston, MA');
-  $map.data('jqdirect').addMarker('Raleigh, NC');
+// Both are equivalent
+$map.jqDirect("addMarker", 'Boston, MA');
+$map.data('jqdirect').addMarker('Raleigh, NC');
 ```
 	
 ## Known Issues
