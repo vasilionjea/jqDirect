@@ -74,5 +74,6 @@ $map.data('jqdirect').addMarker('Raleigh, NC');
 ## Known Issues
 
 1. <del>When printing directions, the map may fall in between 2 pages, therefore showing cut off.</del>
-2. On the printed directions the map is positioned incorrectly.
+2. On the printed directions, the map is positioned incorrectly.
+3. On the printed map, the route line (blue line) does not appear.
 
