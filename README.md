@@ -20,7 +20,7 @@ Load **jQuery (1.9.1+)**, **Google Maps v3**, and **jqDirect**:
 ```
 ```javascript
 var $map = $('#map-canvas');
-map.jqDirect({
+$map.jqDirect({
   to: 'Raleigh, NC'
 });
 ```
